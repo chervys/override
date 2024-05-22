@@ -1,3 +1,4 @@
+level06@OverRide:~$ objdump -dC -M intel level06
 
 level06:     file format elf32-i386
 
@@ -507,4 +508,3 @@ Disassembly of section .fini:
  8048a51:       83 c4 08                add    esp,0x8
  8048a54:       5b                      pop    ebx
  8048a55:       c3                      ret
- 
