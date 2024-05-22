@@ -56,17 +56,17 @@ int __cdecl main(int argc, const char **argv, const char **envp)
 }
 
 ghidra:
-undefined4 auth(char *param_1,uint param_2)
+undefined4 auth(char *username,uint pass)
 {
   size_t sVar1;
   undefined4 uVar2;
   long lVar3;
-  int local_18;
+  int i;
   uint local_14;
   
-  sVar1 = strcspn(param_1,"\n");
-  param_1[sVar1] = '\0';
-  sVar1 = strnlen(param_1,0x20);
+  sVar1 = strcspn(username,"\n");
+  username[sVar1] = '\0';
+  sVar1 = strnlen(username,0x20);
   if ((int)sVar1 < 6) {
     uVar2 = 1;
   }
@@ -79,14 +79,14 @@ undefined4 auth(char *param_1,uint param_2)
       uVar2 = 1;
     }
     else {
-      local_14 = ((int)param_1[3] ^ 0x1337U) + 0x5eeded;
-      for (local_18 = 0; local_18 < (int)sVar1; local_18 = local_18 + 1) {
-        if (param_1[local_18] < ' ') {
+      local_14 = (username[3] ^ 0x1337) + 0x5eeded;
+      for ( i = 0; i < (int)sVar1; i++ ) {
+        if (username[i] < ' ') {
           return 1;
         }
-        local_14 = local_14 + ((int)param_1[local_18] ^ local_14) % 0x539;
+        local_14 = local_14 + (username[i] ^ local_14) % 0x539;
       }
-      if (param_2 == local_14) {
+      if (pass == local_14) {
         uVar2 = 0;
       }
       else {

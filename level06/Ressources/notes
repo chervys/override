@@ -1,4 +1,1 @@
-On peut pas breakpoint ou quoi
-On veut que auth return 0
-on peut éviter que la string finisse par un \0
-il faut pas de caractère à moins de 31 dans la string (sauf un \n du coup ?)
+Pour le coup j'ai réimplémenté leur algo pour savoir pour un identifiant donné quel est le mdp correspondant.
