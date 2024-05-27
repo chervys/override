@@ -166,7 +166,7 @@ int __cdecl main(int argc, const char **argv, const char **envp)
     exit(1);
   }
   strcpy(dest, "./backups/");
-  strncat(dest, argv[1], 99 - strlen(dest));
+  strncat(dest, argv[1], 99 - strlen(dest)); // bizarre ?
   fd = open(dest, 193, 432LL);
   if ( fd < 0 )
   {

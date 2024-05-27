@@ -1,0 +1,3 @@
+Mdr le level08 sauvegarde tous les fichiers que tu lui donne et il
+a les droits pour lire le .pass de level09. Du coup tu crés un lien symbolique
+vers '/home/users/level09/.pass' et tu lui donnes ça. Et c'est tout.
