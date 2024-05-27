@@ -1,1 +1,3 @@
-Pour le coup j'ai réimplémenté leur algo pour savoir pour un identifiant donné quel est le mdp correspondant.
+Le programme attend un username et un mdp et calcul le mdp attendu en fonction
+du username. Du coup j'ai réimplémenté leur algo pour savoir pour un identifiant
+donné quel est le mdp correspondant.

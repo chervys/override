@@ -46,11 +46,18 @@ on peut pas overwrite ret parce que 114 est un multiple de 3
 
 0xffffffff = 4294967295 (unsigned dword)
 
+## Explication
+
+Le programme nous laisse écrire en mémoire mais c'est mal protégé: il nous
+empêche d'écrire à des indexs multiples de 3. Pas de chance, l'adresse de ret
+est à un multiple de 3.
+
 ## Solution
 
-en fait la multiplication par 4 va bitshift de 2 l'index.
-Donc les deux derniers bits de ton index vont être tej et tu peux revenir à ton index
-de 114 x 4 comme ça.
+en fait la multiplication par 4 (qui calcule l'adresse où enregistrer le nombre)
+va bitshift de 2 l'index vers la gauche.
+Donc tu peux mettre un grand nombre et les deux derniers bits de ton index vont
+être tej et tu peux revenir à ton index de 114 x 4 comme ça.
 
 Donc pour écrire à l'index 114, tu prends 114 et tu passe son dernier bit à 1:
 114 + 2^31 = 2147483762

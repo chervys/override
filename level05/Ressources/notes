@@ -58,4 +58,9 @@ exit dans got: 0x80497e0 = \xe0\x97\x04\x08
 -> \xe3\x97\x04\x08
 adresse du shellcode dans l'env: 0xffffdb6f = 4294957935
 
-voir script
+# Explication
+
+La vulnérabilité est une format string. On overwrite l'adresse de la fonction
+exit dans la GOT pour rediriger vers notre exploit qui est un shellcode dans
+l'env. L'adresse du shellcode est grande donc on l'écrit en 2 fois en utilisant
+%hn pour écrire qu'une moitié d'adresse à chaque fois. Voir script.
